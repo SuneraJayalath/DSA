@@ -1,50 +1,42 @@
-public class UnboundedArrayStack {
-    private int[] stack;
-    private int top;
-    private int capacity;
+import java.util.LinkedList;
+import java.util.Queue;
 
-    public UnboundedArrayStack() {
-        capacity = 2;
-        stack = new int[capacity];
-        top = -1;
-    }
+class QueueStack {
+    Queue<Integer> q1 = new LinkedList<>();
+    Queue<Integer> q2 = new LinkedList<>();
 
     void push(int x) {
-        if (top == capacity - 1) {
-            resize(capacity * 2);
-        }
-        stack[++top] = x;
+        q1.add(x);
     }
 
     int pop() {
-        if (top == -1) {
-            System.out.println("Stack is empty");
+        if (q1.isEmpty())
             return -1;
+
+        while (q1.size() > 1) {
+            q2.add(q1.remove());
         }
 
-        int value = stack[top--];
+        int top = q1.remove();
 
-        if (top > 0 && top == capacity / 4) {
-            resize(capacity / 2);
-        }
+        Queue<Integer> temp = q1;
+        q1 = q2;
+        q2 = temp;
 
-        return value;
+        return top;
     }
 
-    private void resize(int newCapacity) {
-        int[] newStack = new int[newCapacity];
-        for (int i = 0; i <= top; i++) {
-            newStack[i] = stack[i];
-        }
-        stack = newStack;
-        capacity = newCapacity;
-    }
+}
 
+public class Main {
     public static void main(String[] args) {
-        UnboundedArrayStack s = new UnboundedArrayStack();
+        QueueStack s = new QueueStack();
+
         s.push(10);
         s.push(20);
         s.push(30);
-        System.out.println(s.pop());
+
+        System.out.println(s.pop());  
+       
     }
 }
