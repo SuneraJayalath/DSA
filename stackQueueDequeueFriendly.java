@@ -1,30 +1,27 @@
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.Stack;
 
-class QueueStackPushFriendly {
-    Queue<Integer> q1 = new LinkedList<>();
-    Queue<Integer> q2 = new LinkedList<>();
+class StackQueueDequeueFriendly {
+    Stack<Integer> s1 = new Stack<>();
+    Stack<Integer> s2 = new Stack<>();
 
-    public void push(int x) {
-        q1.add(x);
+    public void enqueue(int x) {
+        while (!s1.isEmpty()) {
+            s2.push(s1.pop());
+        }
+
+        s1.push(x);
+
+        while (!s2.isEmpty()) {
+            s1.push(s2.pop());
+        }
     }
 
-    public int pop() {
-        if (q1.isEmpty()) {
-            System.out.println("Stack is empty");
+    public int dequeue() {
+        if (s1.isEmpty()) {
+            System.out.println("Queue is empty");
             return -1;
         }
-
-        while (q1.size() > 1) {
-            q2.add(q1.remove());
-        }
-
-        int popped = q1.remove();
-
-        Queue<Integer> temp = q1;
-        q1 = q2;
-        q2 = temp;
-
-        return popped;
+        return s1.pop();
     }
 }
+
